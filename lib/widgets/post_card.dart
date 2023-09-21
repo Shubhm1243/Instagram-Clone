@@ -47,6 +47,11 @@ class _PostCardState extends State<PostCard> {
 
   @override
   Widget build(BuildContext context) {
+
+    if (widget.snap == null) {
+      return const CircularProgressIndicator();
+    }
+
     final User user = Provider.of<UserProvider>(context).getUser;
     final width = MediaQuery.of(context).size.width;
 
