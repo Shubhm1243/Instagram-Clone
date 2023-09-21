@@ -34,6 +34,12 @@ class FeedScreen extends StatelessWidget {
               child: CircularProgressIndicator(),
             );
           }
+          if (!snapshot.hasData || snapshot.data!.docs.isEmpty) {
+            // Handle the case when there are no posts to display
+            return const Center(
+              child: Text('No posts available.'),
+            );
+          }
           return ListView.builder(
             itemCount: snapshot.data!.docs.length,
             itemBuilder: (context, index) => PostCard(
