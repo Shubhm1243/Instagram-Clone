@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-
 import '../utils/colors.dart';
+
 
 class SearchScreen extends StatefulWidget {
   const SearchScreen({Key? key}) : super(key: key);
@@ -54,13 +54,12 @@ class _SearchScreenState extends State<SearchScreen> {
                   return const Center(
                     child: CircularProgressIndicator(),
                   );
-                }
-                else if (snapshot.hasError) {
+                } else if (snapshot.hasError) {
                   return Center(
                     child: Text('Error: ${snapshot.error}'),
                   );
                 } else if (!snapshot.hasData || snapshot.data == null) {
-                  return Center(
+                  return const Center(
                     child: Text('No posts found.'),
                   );
                 }
@@ -68,10 +67,14 @@ class _SearchScreenState extends State<SearchScreen> {
                 return ListView.builder(
                   itemCount: (snapshot.data! as dynamic).docs.length,
                   itemBuilder: (context, index) {
-                    final DocumentSnapshot userSnapshot = snapshot.data!.docs[index];
-                    final Map<String, dynamic>? userData = userSnapshot.data() as Map<String, dynamic>?;
+                    final DocumentSnapshot userSnapshot =
+                        snapshot.data!.docs[index];
+                    final Map<String, dynamic>? userData =
+                        userSnapshot.data() as Map<String, dynamic>?;
 
-                    if (userData == null || !userData.containsKey('username') || !userData.containsKey('photoUrl')) {
+                    if (userData == null ||
+                        !userData.containsKey('username') ||
+                        !userData.containsKey('photoUrl')) {
                       // Handle the case where the required fields are missing or null
                       return const SizedBox();
                     }
