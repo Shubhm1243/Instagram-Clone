@@ -190,7 +190,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-                const Divider(),
+                const Divider(color: Colors.grey,),
+                const SizedBox(height: 4,),
                 FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection('posts')

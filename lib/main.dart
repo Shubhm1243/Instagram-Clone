@@ -1,18 +1,30 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:insta/provider/user_provider.dart';
 import 'package:insta/responsive/mobile_screen_layout.dart';
 import 'package:insta/responsive/responsive_layout_screen.dart';
 import 'package:insta/responsive/web_screen_layout.dart';
 import 'package:insta/screens/login_screen.dart';
-import 'package:insta/screens/sign_up_screen.dart';
 import 'package:insta/utils/colors.dart';
 import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: const FirebaseOptions(
+        apiKey: 'AIzaSyCS7rgRhSNWYi7N603hMprWvvxgMCHFg38',
+        appId: "1:966447992254:web:2acda74e89618727b1bdef",
+        messagingSenderId: "966447992254",
+        projectId: "insta-61c62",
+        storageBucket: "insta-61c62.appspot.com"
+      ),
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
   runApp(const MyApp());
 }
 

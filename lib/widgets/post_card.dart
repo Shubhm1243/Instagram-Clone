@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:insta/provider/user_provider.dart';
 import 'package:insta/resources/firestore_methods.dart';
 import 'package:insta/screens/comment_screen.dart';
 import 'package:insta/utils/colors.dart';
+import 'package:insta/utils/global_variables.dart';
 import 'package:insta/utils/utils.dart';
 import 'package:insta/widgets/like_animation.dart';
 import 'package:intl/intl.dart';
@@ -48,8 +48,16 @@ class _PostCardState extends State<PostCard> {
   @override
   Widget build(BuildContext context) {
     final User user = Provider.of<UserProvider>(context).getUser;
+    final width = MediaQuery.of(context).size.width;
+
     return Container(
-      color: mobileBackgroundColor,
+      decoration: BoxDecoration(
+        borderRadius: width > webScreenSize ? BorderRadius.circular(15) : null,
+        color: mobileBackgroundColor,
+        border: Border.all(
+          color: width > webScreenSize ? secondaryColor : mobileBackgroundColor,
+        ),
+      ),
       padding: const EdgeInsets.symmetric(vertical: 10),
       child: Column(
         children: [
@@ -130,7 +138,8 @@ class _PostCardState extends State<PostCard> {
                   height: MediaQuery.of(context).size.height * 0.35,
                   width: double.infinity,
                   child: Image.network(
-                    widget.snap['postUrl'],
+                    widget.snap['postUrl'].toString(),
+                    fit: BoxFit.fill,
                   ),
                 ),
                 AnimatedOpacity(
