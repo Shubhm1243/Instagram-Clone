@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:insta/resources/auth_methods.dart';
+import 'package:insta/resources/firestore_methods.dart';
+import 'package:insta/screens/login_screen.dart';
 import 'package:insta/utils/colors.dart';
 import 'package:insta/utils/utils.dart';
 import 'package:insta/widgets/follow_button.dart';
@@ -112,8 +115,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 mobileBackgroundColor,
                                             borderColor: Colors.grey,
                                             textColor: primaryColor,
-                                            text: 'Edit Profile',
-                                            function: () {},
+                                            text: 'Sign Out',
+                                            function: () async {
+                                              await AuthMethods().signOut();
+                                              Navigator.of(context)
+                                                  .pushReplacement(
+                                                MaterialPageRoute(
+                                                  builder: (context) =>
+                                                      const LoginScreen(),
+                                                ),
+                                              );
+                                              showSnackBar(context, "Signed Out");
+                                            },
                                           )
                                         : isFollowing
                                             ? FollowButton(
@@ -121,14 +134,36 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                                 borderColor: Colors.grey,
                                                 textColor: Colors.black,
                                                 text: 'Unfollow',
-                                                function: () {},
+                                                function: () async {
+                                                  await FirestoreMethods()
+                                                      .unfollowUser(
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid,
+                                                    userData['uid'],
+                                                  );
+                                                  setState(() {
+                                                    isFollowing = false;
+                                                    followers--;
+                                                  });
+                                                },
                                               )
                                             : FollowButton(
                                                 backgroundColor: blueColor,
                                                 borderColor: Colors.blue,
                                                 textColor: Colors.white,
                                                 text: 'Follow',
-                                                function: () {},
+                                                function: () async {
+                                                  await FirestoreMethods()
+                                                      .followUser(
+                                                    FirebaseAuth.instance
+                                                        .currentUser!.uid,
+                                                    userData['uid'],
+                                                  );
+                                                  setState(() {
+                                                    isFollowing = true;
+                                                    followers++;
+                                                  });
+                                                },
                                               ),
                                   ],
                                 ),
@@ -155,9 +190,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ],
                   ),
                 ),
-
                 const Divider(),
-
                 FutureBuilder(
                   future: FirebaseFirestore.instance
                       .collection('posts')
