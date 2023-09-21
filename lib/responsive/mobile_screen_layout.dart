@@ -1,12 +1,7 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:insta/provider/user_provider.dart';
 import 'package:insta/utils/colors.dart';
 import 'package:insta/utils/global_variables.dart';
-import 'package:provider/provider.dart';
-import 'package:insta/model/user.dart' as model;
 
 class MobileScreenLayout extends StatefulWidget {
   const MobileScreenLayout({Key? key}) : super(key: key);
@@ -75,17 +70,11 @@ class _MobileScreenLayoutState extends State<MobileScreenLayout> {
               ),
               label: '',
               backgroundColor: primaryColor),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite,
-                color: _page == 3 ? primaryColor : secondaryColor,
-              ),
-              label: '',
-              backgroundColor: primaryColor),
+
           BottomNavigationBarItem(
               icon: Icon(
                 Icons.person,
-                color: _page == 4 ? primaryColor : secondaryColor,
+                color: _page == 3 ? primaryColor : secondaryColor,
               ),
               label: '',
               backgroundColor: primaryColor),

@@ -59,7 +59,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
     });
 
     if (res != 'Success') {
-      //todo: show a snackbar
       showSnackBar(context, res);
     } else {
       Navigator.of(context).pushReplacement(
